@@ -54,35 +54,91 @@ var puzzles = [
 ]
 
 $(document).ready(function() {
-  var currentPuzzle = 0;
-  var wins = 0;
-  var losses = 0;
 
-  function newGame(puzzleNum) {
-    var qDiv = $("#question")
-    var aDiv = $("#answers")
-    var puzzle = puzzles[puzzleNum];
-    var question = $(`<p>${puzzle.question}</p>`);
-    //empty divs
-    qDiv.empty()
-    aDiv.empty()
-    //print question
-    qDiv.html(question)
-    for (var i = 0; i < puzzle.answers.length; i++) {
-      var answer = $(`<p>${puzzle.answers[i].answer}</p>`);
-      answer.prop("answer", `${puzzle.answers[i].answer}`)
-      answer.prop("correct", `${puzzle.answers[i].correct}`)
-      answer.addClass("answer")
-      aDiv.append(answer)
+  $("#startButton").click(function() {
+    var currentPuzzle = 0;
+    var wins = 0;
+    var losses = 0;
+    var intervalId;
+
+    var timer = {
+      start: function() {
+        timer.time = 21;
+        intervalId = setInterval(function() {
+          timer.count()
+        }, 1000);
+      },
+      stop: function() {
+        clearInterval(intervalId);
+      },
+      count: function() {
+
+        timer.time--;
+        $("#timer").text(timer.time)
+        if (timer.time <= 0) {
+          losses++
+          currentPuzzle++
+          if (currentPuzzle < puzzles.length) {
+            $("#timer").text('')
+            newGame(currentPuzzle, wins, losses)
+          } else {
+            alert("no more puzzles")
+            resetGame()
+          }
+        }
+      }
     }
-  };
 
-  newGame(currentPuzzle)
+    function newGame(puzzleNum, wins, losses) {
+      clearInterval(intervalId);
+      timer.time = 21;
+      timer.start()
+      $("#score").text(`Wins: ${wins}  Losses: ${losses}`)
+      var qDiv = $("#question")
+      var aDiv = $("#answers")
+      var puzzle = puzzles[puzzleNum];
+      var question = $(`<p>${puzzle.question}</p>`);
+      //empty divs
+      qDiv.empty()
+      aDiv.empty()
+      //print question
+      qDiv.html(question)
+      for (var i = 0; i < puzzle.answers.length; i++) {
+        var answer = $(`<p>${puzzle.answers[i].answer}</p>`);
+        answer.prop("answer", `${puzzle.answers[i].answer}`)
+        answer.prop("correct", `${puzzle.answers[i].correct}`)
+        answer.addClass("answer")
+        aDiv.append(answer)
+      }
 
-  $(".answer").click(function() {
-    console.log(`${this.answer}`);
-    console.log(`${this.correct}`);
+      $(".answer").click(function() {
+        if (this.correct === true) {
+          alert("you win!");
+          wins++
+          $("#timer").text('')
+        } else {
+          alert("you lose :(");
+          losses++
+          $("#timer").text('')
+        }
+        currentPuzzle++
+        if (currentPuzzle < puzzles.length) {
+          newGame(currentPuzzle, wins, losses)
+        } else {
+          alert("no more puzzles")
+          resetGame()
+        }
+      });
+    };
+
+    function resetGame() {
+      currentPuzzle = 0;
+      wins = 0;
+      losses = 0;
+      newGame(currentPuzzle, wins, losses)
+    }
+    resetGame()
+
   });
-
 
 });
