@@ -20,6 +20,22 @@ var puzzles = [
     ],
     "correct": "Mr. Hankey",
     "image": "./assets/images/mrHankey.gif"
+  },
+  {
+    "question": "What is Leopold Stotch's nickname?",
+    "answers": [
+      "Butters", "Shawty", "Smalls", "Maverick"
+    ],
+    "correct": "Butters",
+    "image": "./assets/images/butters.gif"
+  },
+  {
+    "question": "How did Kenny die the first time ever?",
+    "answers": [
+      "Ninja Star to Eye", "UFO Laser Blast", "Hit by Car", "Dodgeball Throw"
+    ],
+    "correct": "UFO Laser Blast",
+    "image": "./assets/images/kenny.gif"
   }
 ]
 
@@ -73,7 +89,7 @@ $(document).ready(function() {
       tDiv.text(`Time Remaining: ${timer.time}`)
       qDiv.html(question)
       for (var i = 0; i < puzzle.answers.length; i++) {
-        var answer = $(`<p>${puzzle.answers[i]}</p>`);
+        var answer = $(`<p><button class="ansButton">${puzzle.answers[i]}</button></p>`);
         answer.prop("answer", `${puzzle.answers[i]}`)
         answer.prop("correct", `${puzzle.correct}`)
         answer.addClass("answer")
@@ -106,9 +122,14 @@ $(document).ready(function() {
       aDiv.html(`<img src="${image}"/>`)
       currentPuzzle++;
       sDiv.text(`Wins: ${wins}  Losses: ${losses}`)
-      var y = 0;
+      var y = 5;
       intervalBetween = setInterval(function() {
-        if (y >= 4) {
+        if (currentPuzzle < puzzles.length) {
+          tDiv.text(`Next game in ${y} seconds...`)
+        } else {
+          tDiv.text(`Out of puzzles`)
+        }
+        if (y <= 0) {
           if (currentPuzzle < puzzles.length) {
             clearInterval(intervalBetween)
             newGame(currentPuzzle, wins, losses)
@@ -121,7 +142,7 @@ $(document).ready(function() {
             $("#startButton").text("Play Again")
           }
         };
-        y++;
+        y--;
       }, 1000);
     }
 

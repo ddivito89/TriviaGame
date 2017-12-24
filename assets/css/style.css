@@ -20,12 +20,30 @@ body {
 .game{
   background-color: lightblue;
   height: 40vh;
-  min-height: 350px;
+  min-height: 355px;
   margin-top: 0px;
+
 }
 
-button{
+#startButton{
   margin-top:90px;
   height: 50px;
   width:100px;
+}
+
+.ansButton{
+  width:250px;
+  margin-top:10px
+}
+
+#header{
+  padding-top:5px;
+}
+
+#question{
+  font-size:18px;
+}
+
+button:hover {
+    color: #ff69b4;
 }
