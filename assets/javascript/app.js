@@ -1,25 +1,25 @@
 var puzzles = [
   {
-    "question": "how much blah one",
+    "question": "What is Randy Marsh's profession?",
     "answers": [
-      "1", "2", "3", "4"
+      "personal trainer", "geologist", "bartender", "lawyer"
     ],
-    "correct": "1",
-    "image":"./assets/images/cartman.jpg"
+    "correct": "geologist",
+    "image": "./assets/images/geology.gif"
   }, {
-    "question": "how much blah one",
+    "question": "What is Cartman's favorite snack?",
     "answers": [
-      "11", "22", "33", "44"
+      "brownies", "oreos", "lasagana", "cheesy poofs"
     ],
-    "correct": "22",
-    "image":"./assets/images/kenny.png"
+    "correct": "cheesy poofs",
+    "image": "./assets/images/sweet.gif"
   }, {
-    "question": "how much blah one",
+    "question": "Who is the Christmas deity of South Park?",
     "answers": [
-      "111", "222", "333", "4444"
+      "Santa", "Rudolph", "Buddy the Elf", "Mr. Hankey"
     ],
-    "correct": "333",
-    "image":"./assets/images/kyle.png"
+    "correct": "Mr. Hankey",
+    "image": "./assets/images/mrHankey.gif"
   }
 ]
 
@@ -41,7 +41,7 @@ $(document).ready(function() {
     var answerSelected = false;
 
     var timer = {
-      time: 20,
+      time: 15,
       start: function() {
         countdownInt = setInterval(function() {
           timer.count()
@@ -51,14 +51,14 @@ $(document).ready(function() {
         timer.time--;
         tDiv.text(`Time Remaining: ${timer.time}`)
         if (timer.time <= 0) {
-          gameOver("Times Up")
+          gameOver("OUT OF TIME")
         }
       }
     }
 
     function newGame(puzzleNum, wins, losses) {
       answerSelected = false;
-      timer.time = 20;
+      timer.time = 15;
       timer.start()
       sDiv.text(`Wins: ${wins}  Losses: ${losses}`)
       var puzzle = puzzles[puzzleNum];
@@ -95,18 +95,20 @@ $(document).ready(function() {
       clearInterval(countdownInt)
       if (answer === correct) {
         wins++;
-        qDiv.html("Correct!")
-        aDiv.html(`<img src="${image}"/>`)
+        qDiv.html(`Correct :)  ${correct}`)
+      } else if (answer === "OUT OF TIME") {
+        losses++;
+        qDiv.html(`Out of Time :(  answer was ${correct}`)
       } else {
         losses++;
-        qDiv.html("Wrong :(")
-        aDiv.html(`<img src="${image}"/>`)
+        qDiv.html(`Wrong :(  answer was ${correct}`)
       }
+      aDiv.html(`<img src="${image}"/>`)
       currentPuzzle++;
       sDiv.text(`Wins: ${wins}  Losses: ${losses}`)
       var y = 0;
       intervalBetween = setInterval(function() {
-        if (y === 3) {
+        if (y >= 4) {
           if (currentPuzzle < puzzles.length) {
             clearInterval(intervalBetween)
             newGame(currentPuzzle, wins, losses)

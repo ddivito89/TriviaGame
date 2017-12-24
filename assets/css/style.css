@@ -3,8 +3,8 @@
     src: url(./southpark.ttf) format("truetype");
 }
 img{
-  height:150px;
-  width:200px;
+  height:225px;
+  width:300px;
 }
 
 body {
@@ -22,4 +22,10 @@ body {
   height: 40vh;
   min-height: 350px;
   margin-top: 0px;
+}
+
+button{
+  margin-top:90px;
+  height: 50px;
+  width:100px;
 }
