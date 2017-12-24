@@ -1,0 +1,25 @@
+@font-face {
+    font-family: "sp";
+    src: url(./southpark.ttf) format("truetype");
+}
+img{
+  height:150px;
+  width:200px;
+}
+
+body {
+  font-family: "sp";
+  background-size:cover;
+  background-image: url("../images/background.jpg");
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100%;
+}
+
+.game{
+  background-color: lightblue;
+  height: 40vh;
+  min-height: 350px;
+  margin-top: 0px;
+}
